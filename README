@@ -1,0 +1,10 @@
+Intended to report information about the user's browser capabilities.
+Feature, OS, and Browser detection is performed.
+Used in place of Modernizr to avoid bringing in a bloated (and sometimes broken) detection library
+
+Usage:
+    var browserDetect = require('lib/BrowserDetect');
+    browserDetect.features.canvas          // Canvas is supported
+    browserDetect.os.mobile                // User is on a Mobile device
+    browserDetect.browser.ie               // Internet Explorer browser is detected
+    browserDetect.browser.ieVersion < 9    // Internet Explorer version is 8 or below
