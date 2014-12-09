@@ -2,10 +2,12 @@
  * @fileOverview BrowserDetect module definition
  */
 
-define(function(require) {
+//TODO: UMD
+//define(function(require) {
+var BrowserDetect = (function() {
     'use strict';
 
-    var $ = require('jquery');
+    //var $ = require('jquery');
     
     /**
      * Intended to report information about the user's browser capabilities.
@@ -122,7 +124,7 @@ define(function(require) {
         }
 
         // Browser
-        this.browser.ie = /msie/i.test(this.userAgent);
+        this.browser.ie = /msie|trident/i.test(this.userAgent);
         if (this.browser.ie) {
             this.browser.ieVersion = this.getIEVersion();
         }
@@ -392,12 +394,19 @@ define(function(require) {
     * @returns {float} Browser version number in the form 9.0
     */
     BrowserDetect.prototype.getIEVersion = function() {
+        var ieVersion = 0;
+
         var matches = /msie (\d+.\d+)/i.exec(this.appVersion);
-        
+
         if (matches != null && matches.length > 1) {
-            return parseFloat(matches[1]);
+            ieVersion = parseFloat(matches[1]);
         }
-        return 0;
+
+        if (isNaN(ieVersion) || ieVersion === 0) {
+            ieVersion = 11;
+        }
+
+        return ieVersion;
     };
 
     /**
@@ -406,13 +415,15 @@ define(function(require) {
     * @returns {float} OS version number in the form 7.0
     */
     BrowserDetect.prototype.getiOSVersion = function() {
+        var iOSVersion = 0;
+
         var matches = /os (\d+_\d+)/i.exec(this.appVersion);
 
         if (matches != null && matches.length > 1) {
-            return parseFloat(matches[1].replace('_', '.'));
+            iOSVersion = parseFloat(matches[1].replace('_', '.'));
         }
-        return 0;
+        return iOSVersion;
     };
 
     return new BrowserDetect();
-});
+})();
